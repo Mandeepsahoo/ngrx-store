@@ -10,14 +10,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { environment } from 'src/environments/environment';
-
+import { EffectsModule } from '@ngrx/effects';
+import { HttpClientModule } from '@angular/common/http';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    HeaderComponent,
+    LoadingSpinnerComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
+    EffectsModule.forRoot([]),
     StoreModule.forRoot(appReducer),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production,
