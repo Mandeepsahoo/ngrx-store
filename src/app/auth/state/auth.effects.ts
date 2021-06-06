@@ -2,7 +2,7 @@ import {
   setLoadingSpinner,
   setErrorMessage,
 } from './../../store/Shared/shared.actions';
-import { exhaustMap, map, catchError } from 'rxjs/operators';
+import { exhaustMap, map, catchError, tap } from 'rxjs/operators';
 import { loginStart, loginSuccess } from './auth.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
@@ -10,13 +10,15 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { of } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) {}
 
   login$ = createEffect(() => {
@@ -42,4 +44,16 @@ export class AuthEffects {
       })
     );
   });
+
+  loginRedirect$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(loginSuccess),
+        tap((action) => {
+          this.router.navigate(['/']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 }
