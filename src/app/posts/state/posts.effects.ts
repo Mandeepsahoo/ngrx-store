@@ -3,7 +3,12 @@ import { map, mergeMap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { PostsService } from 'src/app/service/posts.service';
-import { loadPosts, loadPostsSuccess } from './posts.action';
+import {
+  addPost,
+  addPostSuccess,
+  loadPosts,
+  loadPostsSuccess,
+} from './posts.action';
 
 @Injectable()
 export class PostsEffects {
@@ -16,6 +21,20 @@ export class PostsEffects {
         return this.postsService.getPosts().pipe(
           map((posts) => {
             return loadPostsSuccess({ posts });
+          })
+        );
+      })
+    );
+  });
+
+  addPost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(addPost),
+      mergeMap((actions) => {
+        return this.postsService.addPost(actions.post).pipe(
+          map((data) => {
+            const post = { ...actions.post, id: data.name };
+            return addPostSuccess({ post });
           })
         );
       })
