@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { postsReducer } from './state/posts.reducer';
 import { POST_STATE_NAME } from './state/posts.selectors';
+import { SinglePostComponent } from './single-post/single-post.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
   },
 ];
 @NgModule({
-  declarations: [PostsListComponent, AddPostComponent, EditPostComponent],
+  declarations: [PostsListComponent, AddPostComponent, EditPostComponent, SinglePostComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
